@@ -1,0 +1,62 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "description": "Sistema de Gerenciamento de Tarefas que utiliza o Kanban como ferramenta principal.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit",
+    "commit": "cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrunoL28/task-manager.git"
+  },
+  "keywords": [
+    "kanban",
+    "task-manager",
+    "management",
+    "tasks",
+    "drag-and-drop",
+    "mui",
+    "frontend",
+    "backend",
+    "fullstack",
+    "react",
+    "reactjs",
+    "react.js",
+    "nodejs",
+    "node",
+    "javascript",
+    "express",
+    "redux",
+    "mongodb",
+    "mongo",
+    "mvc",
+    "husky"
+  ],
+  "author": "Bruno Lima Soares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrunoL28/task-manager/issues"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
+  },
+  "homepage": "https://github.com/BrunoL28/task-manager#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "commitizen": "^4.3.1",
+    "husky": "^9.1.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
