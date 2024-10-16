@@ -30,11 +30,16 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-mongoose.connect(process.env.MONGODB_URL).then(() => {
+const mongoDBConnectionString = process.env.MONGODB_URI || process.env.MONGODB_URL;
+
+mongoose.connect(mongoDBConnectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
     server.listen(port);
     server.on("error", onError);
     server.on("listening", onListening);
-    console.log(`MongoDB conectado em ${process.env.MONGODB_URL}`);
+    console.log(`MongoDB conectado em ${mongoDBConnectionString}`);
 }).catch(err => {
     console.log(err);
     process.exit(1);
