@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseUrl = "https://kanban-task-manager-api.vercel.app/";
+const baseUrl = "https://kanban-task-manager-oc7nhecta-brunol28s-projects.vercel.app/";
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({
