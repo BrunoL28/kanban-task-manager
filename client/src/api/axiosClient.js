@@ -1,20 +1,23 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseUrl = "https://kanban-task-manager-oc7nhecta-brunol28s-projects.vercel.app/";
+const baseUrl = "kanban-task-manager-api.vercel.app/api/v1";
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({
     baseURL: baseUrl,
-    paramsSerializer: params => queryString.stringify({ params })
+    paramsSerializer: params => queryString.stringify(params)
 });
 
 axiosClient.interceptors.request.use(async config => {
+    const token = getToken();
+    if (token) {
+        config.headers.authorization = `Bearer ${token}`;
+    }
     return {
         ...config,
         headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${getToken()}`
+            "Content-Type": "application/json"
         }
     };
 });
@@ -24,7 +27,9 @@ axiosClient.interceptors.response.use(response => {
     return response;
 }, err => {
     if (!err.response) {
-        return alert(err);
+        console.log("Erro de conexão:", err);
+    } else {
+        console.log("Erro na resposta:", err.response);
     }
     throw err.response;
 });
