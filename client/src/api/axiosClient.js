@@ -1,12 +1,12 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseUrl = "kanban-task-manager-api.vercel.app/api/v1";
+const baseUrl = "kanban-task-manager-api.vercel.app/";
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({
     baseURL: baseUrl,
-    paramsSerializer: params => queryString.stringify(params)
+    paramsSerializer: params => queryString.stringify({params})
 });
 
 axiosClient.interceptors.request.use(async config => {
