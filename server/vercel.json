@@ -1,23 +1,14 @@
 {
     "builds": [
       {
-        "src": "server/bin/www.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "client/package.json",
-        "use": "@vercel/static-build",
-        "config": { "distDir": "build" }
+        "src": "bin/www.js",
+        "use": "@now/node"
       }
     ],
     "routes": [
       {
-        "src": "/api/(.*)",
-        "dest": "server/bin/www.js"
-      },
-      {
         "src": "/(.*)",
-        "dest": "client/build/$1"
+        "dest": "bin/www.js"
       }
     ]
-  }  
+  }
