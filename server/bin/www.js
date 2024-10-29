@@ -17,7 +17,7 @@ dotenv.config();
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
 /**
@@ -35,13 +35,20 @@ const mongoDBConnectionString = process.env.MONGODB_URI || process.env.MONGODB_U
 mongoose.connect(mongoDBConnectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
-    server.listen(port);
+})
+.then(() => {
+    console.log(`MongoDB conectado em ${mongoDBConnectionString}`);
+    
+    // Inicia o servidor aqui, apenas uma vez
+    server.listen(port, '0.0.0.0', () => {
+        console.log(`Backend rodando na porta ${port}`);
+    });
+
     server.on("error", onError);
     server.on("listening", onListening);
-    console.log(`MongoDB conectado em ${mongoDBConnectionString}`);
-}).catch(err => {
-    console.log(err);
+})
+.catch(err => {
+    console.error("Erro ao conectar ao MongoDB:", err);
     process.exit(1);
 });
 
@@ -52,16 +59,8 @@ mongoose.connect(mongoDBConnectionString, {
 function normalizePort(val) {
     const port = parseInt(val, 10);
 
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-
+    if (isNaN(port)) return val;  // named pipe
+    if (port >= 0) return port;   // port number
     return false;
 }
 
@@ -74,18 +73,16 @@ function onError(error) {
         throw error;
     }
 
-    const bind = typeof port === "string"
-        ? "Pipe " + port
-        : "Port " + port;
+    const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
-    // handle specific listen errors with friendly messages
+    // Handle specific listen errors with friendly messages
     switch (error.code) {
         case "EACCES":
-            console.error(bind + " requer privilégios elevados");
+            console.error(`${bind} requer privilégios elevados`);
             process.exit(1);
             break;
         case "EADDRINUSE":
-            console.error(bind + " já está em uso");
+            console.error(`${bind} já está em uso`);
             process.exit(1);
             break;
         default:
@@ -99,8 +96,6 @@ function onError(error) {
 
 function onListening() {
     const addr = server.address();
-    const bind = typeof addr === "string"
-        ? "pipe " + addr
-        : "port " + addr.port;
-    debug("Ouvindo em " + bind);
+    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    debug(`Ouvindo em ${bind}`);
 }
